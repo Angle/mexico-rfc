@@ -9,6 +9,9 @@ class RFC
     const RFC_GENERIC_NATIONAL = 'XAXX010101000';
     const RFC_GENERIC_FOREIGN  = 'XEXX010101000';
 
+    const TYPE_LEGAL_ENTITY     = 'L';
+    const TYPE_NATURAL_PERSON   = 'P';
+
     const LEGAL_ENTITY_PATTERN      = "/^[A-Z&Ñ]{3}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])[A-Z0-9]{2}[0-9A]$/";
     const NATURAL_PERSON_PATTERN    = "/^[A-Z&Ñ]{4}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])[A-Z0-9]{2}[0-9A]$/";
 
@@ -261,35 +264,46 @@ class RFC
     protected $genericForeign = false;
 
 
-    public static function isValid(string $rfc): bool
+    public static function isValid(string $rfc, ?string $checkType=null): bool
     {
-        $r = preg_match(self::LEGAL_ENTITY_PATTERN, $rfc, $matches);
+        if ($checkType === null || $checkType === self::TYPE_LEGAL_ENTITY) {
+            $r = preg_match(self::LEGAL_ENTITY_PATTERN, $rfc, $matches);
 
-        if ($r === 1) {
-            return true;
+            if ($r === 1) {
+                return true;
+            }
         }
 
-        $r = preg_match(self::NATURAL_PERSON_PATTERN, $rfc, $matches);
 
-        if ($r === 1) {
-            return true;
+        if ($checkType === null || $checkType === self::TYPE_NATURAL_PERSON) {
+            $r = preg_match(self::NATURAL_PERSON_PATTERN, $rfc, $matches);
+
+            if ($r === 1) {
+                return true;
+            }
         }
 
         return false;
     }
 
-    public static function isValidWithoutHomoclave(string $rfc): bool
+    public static function isValidWithoutHomoclave(string $rfc, ?string $checkType=null): bool
     {
-        $r = preg_match(self::LEGAL_ENTITY_PATTERN_WITHOUT_HOMOCLAVE, $rfc, $matches);
 
-        if ($r === 1) {
-            return true;
+        if ($checkType === null || $checkType === self::TYPE_LEGAL_ENTITY) {
+            $r = preg_match(self::LEGAL_ENTITY_PATTERN_WITHOUT_HOMOCLAVE, $rfc, $matches);
+
+            if ($r === 1) {
+                return true;
+            }
         }
 
-        $r = preg_match(self::NATURAL_PERSON_PATTERN_WITHOUT_HOMOCLAVE, $rfc, $matches);
 
-        if ($r === 1) {
-            return true;
+        if ($checkType === null || $checkType === self::TYPE_NATURAL_PERSON) {
+            $r = preg_match(self::NATURAL_PERSON_PATTERN_WITHOUT_HOMOCLAVE, $rfc, $matches);
+
+            if ($r === 1) {
+                return true;
+            }
         }
 
         return false;

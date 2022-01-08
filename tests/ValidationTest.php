@@ -25,6 +25,21 @@ final class ValidationTest extends TestCase
         foreach ($cases as $input => $expected) {
             $this->assertEquals($expected, RFC::isValid($input));
         }
+
+
+        // Check that filters work OK
+        $naturalPersonRFC = 'GUHR890715G54';
+
+        $this->assertEquals(true, RFC::isValid($naturalPersonRFC));
+        $this->assertEquals(true, RFC::isValid($naturalPersonRFC, RFC::TYPE_NATURAL_PERSON));
+        $this->assertEquals(false, RFC::isValid($naturalPersonRFC, RFC::TYPE_LEGAL_ENTITY));
+
+
+        $legalEntityRFC = 'GUH890715AA2';
+
+        $this->assertEquals(true, RFC::isValid($legalEntityRFC));
+        $this->assertEquals(true, RFC::isValid($legalEntityRFC, RFC::TYPE_LEGAL_ENTITY));
+        $this->assertEquals(false, RFC::isValid($legalEntityRFC, RFC::TYPE_NATURAL_PERSON));
     }
 
     public function testRfcWithoutHomoclaveValidation(): void
@@ -45,5 +60,20 @@ final class ValidationTest extends TestCase
         foreach ($cases as $input => $expected) {
             $this->assertEquals($expected, RFC::isValidWithoutHomoclave($input));
         }
+
+
+        // Check that filters work OK
+        $naturalPersonRFC = 'GUHR890715';
+
+        $this->assertEquals(true, RFC::isValidWithoutHomoclave($naturalPersonRFC));
+        $this->assertEquals(true, RFC::isValidWithoutHomoclave($naturalPersonRFC, RFC::TYPE_NATURAL_PERSON));
+        $this->assertEquals(false, RFC::isValidWithoutHomoclave($naturalPersonRFC, RFC::TYPE_LEGAL_ENTITY));
+
+
+        $legalEntityRFC = 'GUH890715';
+
+        $this->assertEquals(true, RFC::isValidWithoutHomoclave($legalEntityRFC));
+        $this->assertEquals(true, RFC::isValidWithoutHomoclave($legalEntityRFC, RFC::TYPE_LEGAL_ENTITY));
+        $this->assertEquals(false, RFC::isValidWithoutHomoclave($legalEntityRFC, RFC::TYPE_NATURAL_PERSON));
     }
 }
