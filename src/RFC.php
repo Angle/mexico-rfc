@@ -9,8 +9,11 @@ class RFC
     const RFC_GENERIC_NATIONAL = 'XAXX010101000';
     const RFC_GENERIC_FOREIGN  = 'XEXX010101000';
 
-    const LEGAL_ENTITY_PATTERN = "/^[A-Z&Ñ]{3}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])[A-Z0-9]{2}[0-9A]$/";
-    const NATURAL_PERSON_PATTERN = "/^[A-Z&Ñ]{4}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])[A-Z0-9]{2}[0-9A]$/";
+    const LEGAL_ENTITY_PATTERN      = "/^[A-Z&Ñ]{3}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])[A-Z0-9]{2}[0-9A]$/";
+    const NATURAL_PERSON_PATTERN    = "/^[A-Z&Ñ]{4}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])[A-Z0-9]{2}[0-9A]$/";
+
+    const LEGAL_ENTITY_PATTERN_WITHOUT_HOMOCLAVE    = "/^[A-Z&Ñ]{3}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$/";
+    const NATURAL_PERSON_PATTERN_WITHOUT_HOMOCLAVE  = "/^[A-Z&Ñ]{4}[0-9]{2}(0[1-9]|1[012])(0[1-9]|[12][0-9]|3[01])$/";
 
     const INCONVENIENT_WORDS = [
         'BUEI',
@@ -267,6 +270,23 @@ class RFC
         }
 
         $r = preg_match(self::NATURAL_PERSON_PATTERN, $rfc, $matches);
+
+        if ($r === 1) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static function isValidWithoutHomoclave(string $rfc): bool
+    {
+        $r = preg_match(self::LEGAL_ENTITY_PATTERN_WITHOUT_HOMOCLAVE, $rfc, $matches);
+
+        if ($r === 1) {
+            return true;
+        }
+
+        $r = preg_match(self::NATURAL_PERSON_PATTERN_WITHOUT_HOMOCLAVE, $rfc, $matches);
 
         if ($r === 1) {
             return true;

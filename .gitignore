@@ -12,7 +12,7 @@ Thumbs.db
 /test-data/
 
 # JetBrains
-.idea/
+.idea/**
 !/.idea/.name
 
 # Composer

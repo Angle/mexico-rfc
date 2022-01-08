@@ -5,7 +5,7 @@ namespace Angle\Mexico\RFC\Tests;
 use Angle\Mexico\RFC\RFC;
 use PHPUnit\Framework\TestCase;
 
-final class RfcTest extends TestCase
+final class BuildTest extends TestCase
 {
     public function testCleanString(): void
     {

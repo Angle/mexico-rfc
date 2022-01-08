@@ -35,6 +35,18 @@ echo $rfc->getRfcComplete(); // GUHR890715G54
 The utility can also be used to validate an existing RFC string and infer some metadata from it.
 
 ```php
+echo (RFC::isValid('INVALID_12313') ? 'Yes' : 'No'); // No
+echo (RFC::isValid('GUHR890715G54') ? 'Yes' : 'No'); // Yes
+
+echo (RFC::isValidWithoutHomoclave('GUHR890715') ? 'Yes' : 'No'); // Yes
+```
+
+#### Extract metadata from valid RFC strings
+Validate and infer some metadata from the RFC string, such as type of legal entity.
+
+TODO: infer date of birth.
+
+```php
 $rfc = RFC::createFromRfcString('GUHR890715G54');
 
 if ($rfc === null) {
@@ -48,7 +60,8 @@ echo ($rfc->isNaturalPerson() ? 'Yes' : 'No'); // Yes
 ## Tests
 
 ```bash
-php vendor/bin/phpunit tests/RfcTest.php
+php vendor/bin/phpunit tests/BuildTest.php
+php vendor/bin/phpunit tests/ValidationTest.php
 ```
 
 ## TO-DO
